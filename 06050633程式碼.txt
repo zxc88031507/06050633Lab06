@@ -1,0 +1,247 @@
+Check1
+#define NOTE_C3  131
+#define NOTE_CS3 139
+#define NOTE_D3  147
+#define NOTE_DS3 156
+#define NOTE_E3  165
+#define NOTE_F3  175
+#define NOTE_FS3 185
+#define NOTE_G3  196
+#define NOTE_GS3 208
+#define NOTE_A3  220
+#define NOTE_AS3 233
+#define NOTE_B3  247
+#define NOTE_C4  262
+#define NOTE_CS4 277
+#define NOTE_D4  294
+#define NOTE_DS4 311
+#define NOTE_E4  330
+#define NOTE_F4  349
+#define NOTE_FS4 370
+#define NOTE_G4  392
+#define NOTE_GS4 415
+#define NOTE_A4  440
+#define NOTE_AS4 466
+#define NOTE_B4  494
+#define NOTE_AA2 587
+
+#define WHOLE 1 
+#define HALF 0.5 
+#define QUARTER 0.25 
+#define EIGHTH 0.25 
+#define SIXTEENTH 0.625  
+
+int tune[] =  
+{  
+  NOTE_B4,NOTE_G4,NOTE_D4,NOTE_G4,NOTE_A4,NOTE_AA2,NOTE_A4,NOTE_B4,NOTE_A4,NOTE_D4,NOTE_G4
+};
+
+float duration[]= 
+
+{  
+  1,1,1,1,1,1+1,1,1,1,1,1
+};
+
+int length;
+
+int tonePin=8;
+void setup() 
+{  
+  pinMode(tonePin,OUTPUT);
+  length = sizeof(tune)/sizeof(tune[0]);
+} 
+void loop() 
+{  
+
+  for(int x=0;x<length;x++)
+  {  
+    tone(tonePin,tune[x]);
+
+ delay(400*duration[x]);
+
+noTone(tonePin);
+
+  } 
+  delay(2000);
+}
+
+Check2
+#include <Keypad.h>
+#define PIN 11
+#define C3 131
+#define D3 147
+#define E3 165
+#define F3 175
+#define G3 196
+#define A3 220
+#define B3 247
+
+#define C4 262
+#define D4 294
+#define E4 330
+#define F4 349
+#define G4 392
+#define A4 440
+#define B4 494
+
+#define C5 523
+#define D5 587
+const byte ROWS = 4; // 4 Rows
+const byte COLS = 4; // 4 Columns
+char keys[ROWS][COLS] = {
+  {'7', '4', '1', '0'}, {'8', '5', '2', 'A'},
+  {'9', '6', '3', 'B'}, {'C', 'D', 'E', 'F'}
+};
+byte rowPins[ROWS] = {5, 4, 3, 2};
+byte colPins[COLS] = {10, 9, 8, 7};
+Keypad keypad =
+  Keypad( makeKeymap(keys), rowPins,
+          colPins, ROWS, COLS );
+void setup() {
+  pinMode(PIN, OUTPUT);
+  Serial.begin(9600);
+}
+void loop() {
+  char key = keypad.getKey();
+  if (key != NO_KEY) {
+    if (key == '0')
+    {
+      tone(PIN, C3);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == '1')
+    {
+      tone(PIN, D3);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == '4')
+    {
+      tone(PIN, E3);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == '7')
+    {
+      tone(PIN, F3);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == 'A')
+    {
+      tone(PIN, G3);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == '2')
+    {
+      tone(PIN, A3);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == '5')
+    {
+      tone(PIN, B3);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == '8')
+    { tone(PIN, C4);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == 'B')
+    { tone(PIN, D4);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == '3')
+    { tone(PIN, E4);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == '6')
+    { tone(PIN, F4);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == '9')
+    { tone(PIN, G4);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == 'F')
+    { tone(PIN, A4);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == 'E')
+    { tone(PIN, B4);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == 'D')
+    { tone(PIN, C5);
+      delay(1000);
+      noTone(PIN);
+    }
+    else if (key == 'C')
+    { tone(PIN, D5);
+      delay(1000);
+      noTone(PIN);
+    }
+    Serial.println(key);
+  }
+}
+
+
+
+Check3
+char *morse[] = {"01", "1000", "1010", "100",
+                 "0", "0010", "110", "0000",
+                 "00", "0111", "101", "0100",
+                 "11", "10", "111", "0110",
+                 "1101", "010", "000", "1",
+                 "001", "0001", "011", "1001", "1011", "1100"
+                };
+#define PIN 11
+char k, con;
+char *ptr;
+
+void setup() {
+  pinMode(PIN, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (Serial.available())
+  {
+    k = Serial.read();
+    Serial.println(k);
+    if ((k - 'A') >= 0 && (k - 'Z') <= 0)
+    { con = k - 'A';
+      ptr = morse[con];
+
+      while (*ptr != '\0')
+      {
+        if (*ptr == '0')
+        {
+          tone(PIN, 440, 100);
+          delay(100);
+
+        }
+        else
+        {
+          tone(PIN, 440, 300);
+          delay(300);
+
+        }
+        ptr++;
+
+        delay(100);
+
+      }
+    }
+  }
+}
